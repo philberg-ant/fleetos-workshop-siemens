@@ -410,16 +410,20 @@ morning produced on its own (busy fleets re-report; that's exactly why this
 rule earns a permanent place in the skill). Here's the rule that separates
 loop *users* from loop
 *engineers*: **don't fix the output - fix the system.** The fix goes in the
-skill, so every future iteration checks for it:
+skill, so every future iteration checks for it. And you don't stop or
+re-author the loop to do it - the loop and your keyboard share the same
+session, so type this as a normal message (if a firing is mid-flight, your
+message simply waits its turn; the schedule isn't disturbed):
 
 > Add a rule to the verify-fleet-change skill: after updating OPS_LOG.md,
 > run `python3 checks/db_query.py dupes`; if CONTENT_DUP is above 0, mark
 > the later report in OPS_LOG.md as "duplicate of INC-<id>" and count the
 > pair once in ops_status.json's open_count.
 
-Watch the next firing pass a check that didn't exist ten minutes ago. You
-upgraded every future run by editing **one file** - not every future
-prompt.
+Watch the next firing pass a check that didn't exist ten minutes ago. The
+loop's prompt never changed - but the skill it calls is re-read on every
+firing, so you upgraded every future run by editing **one file**, not
+every future prompt.
 
 When you've seen enough firings, stop the loop: tell Claude **"stop the
 loop"** (pressing **Esc** only interrupts the firing in flight - the
