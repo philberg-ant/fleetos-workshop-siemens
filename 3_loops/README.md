@@ -151,9 +151,11 @@ modernisation method). This one - your third - captures how you
 should cover, at minimum:
 
 - run `python3 checks/check_dashboard.py` and report the pass count
+- the checks *covering the current change* must pass, and nothing that was
+  green may go red - other failing checks are later work: leave them
 - `curl` the two API endpoints the dashboard depends on and expect 200 + JSON
-- never report a change complete on a successful edit alone
-- if any step fails: fix, then re-verify **from the top**
+- never report a change complete on a successful edit alone; if a check
+  the change covers fails: fix, then re-verify **from the top**
 
 > Create a skill at `.claude/skills/verify-fleet-change/SKILL.md` that
 > encodes how we verify FleetOS dashboard changes end-to-end. [describe
@@ -174,15 +176,18 @@ Never report a change as complete based on a successful edit alone.
 Verify it the way the ops team would:
 
 1. Run `python3 checks/check_dashboard.py` and report the pass count
-   ("N/12 PASSED") in your final message.
+   ("N/12 PASSED") in your final message. The checks covering the
+   current change must pass, and no previously-passing check may go
+   red. Checks for work that was not asked for may stay failing -
+   leave them alone.
 2. `curl -s http://localhost:8001/vehicles` and
    `curl -s http://localhost:8001/ops/incidents` - both must return
    HTTP 200 and valid JSON.
 3. Re-read every file you changed and confirm the edit is what you
    intended.
 
-If any step fails, fix the issue and rerun from step 1 - do not hand
-back partially verified work.
+If a check the change covers fails, fix the issue and rerun from
+step 1 - do not hand back partially verified work.
 ```
 </details>
 <br>
@@ -196,10 +201,12 @@ checking):
 > count of unresolved incidents.
 
 Watch the difference: Claude edits, then - without being asked - runs the
-check script, curls the endpoints, and reports a pass count. Your skill's
-`description:` line did that: it tells Claude *when* the skill applies, so
-the verification triggers on its own. This time you never opened the
-browser: same class of bug, **zero** checking by you.
+check script, curls the endpoints, and reports a pass count (6/12 at this
+point - the red half is later steps' work; the skill cares that *this
+change's* checks pass and nothing regressed). Your skill's `description:`
+line did that: it tells Claude *when* the skill applies, so the
+verification triggers on its own. This time you never opened the browser:
+same class of bug, **zero** checking by you.
 
 > 📝 **Claude didn't verify on its own?** Add "verify with the
 > verify-fleet-change skill" to the prompt once - then look at your

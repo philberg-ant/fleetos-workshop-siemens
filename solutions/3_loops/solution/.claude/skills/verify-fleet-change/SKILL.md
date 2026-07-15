@@ -9,7 +9,9 @@ Never report a change as complete based on a successful edit alone. Verify
 it the way the ops team would:
 
 1. Run `python3 checks/check_dashboard.py` and report the pass count
-   ("N/12 PASSED") in your final message.
+   ("N/12 PASSED") in your final message. The checks covering the current
+   change must pass, and no previously-passing check may go red. Checks
+   for work that was not asked for may stay failing — leave them alone.
 2. `curl -s http://localhost:8001/vehicles` and
    `curl -s http://localhost:8001/ops/incidents` — both must return
    HTTP 200 and valid JSON.
@@ -20,5 +22,5 @@ it the way the ops team would:
    mark the later report in `OPS_LOG.md` as "duplicate of INC-<id>" and
    count the duplicated pair once in `ops_status.json`'s `open_count`.
 
-If any step fails, fix the issue and rerun from step 1 — do not hand back
-partially verified work.
+If a check the change covers fails, fix the issue and rerun from step 1 —
+do not hand back partially verified work.
