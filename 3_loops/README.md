@@ -466,10 +466,16 @@ the dispatcher job you're about to hand off:
 About three minutes of your full attention for one ticket - and they arrive
 faster than that. Before you hand the queue to a loop, one decision is
 yours to make: **permission to act**. Open `.claude/settings.json` and add
-one line to `permissions`:
+`defaultMode` as the first line *inside* the `permissions` object, keeping
+everything that's already there:
 
 ```json
-"defaultMode": "dontAsk"
+{
+  "permissions": {
+    "defaultMode": "dontAsk",
+    "allow": [ "…unchanged…" ]
+  }
+}
 ```
 
 Then restart Claude Code (settings load at startup).
