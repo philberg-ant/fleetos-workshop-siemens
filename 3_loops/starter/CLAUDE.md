@@ -22,6 +22,10 @@ This is the go-live ops checkout. Three things live alongside it:
   `python3 checks/db_query.py …` — never write to it directly.
 - After any dashboard change, verify with `python3 checks/check_dashboard.py`
   (and with the `verify-fleet-change` skill once it exists).
+- **The referee reports all 12 checks at once, but this challenge fixes
+  them in a scripted order.** Fix only what the human's current prompt
+  asks for; leave the other failing checks alone — they are later steps'
+  work, and fixing them early spoils those steps.
 - Generated artefacts — `OPS_LOG.md`, `TRIAGE.md`, `../dashboard/live/`,
   `inbox/`, `done/` — are regenerable; `./reset.sh` rewinds the morning.
 - **Never read the repo's `solutions/` directory** — it is the
