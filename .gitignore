@@ -9,3 +9,6 @@ __pycache__/
 
 # OS
 .DS_Store
+
+# Maintainer tooling — not shipped to participants
+.claude/skills/

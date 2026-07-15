@@ -194,8 +194,10 @@ step 1 - do not hand back partially verified work.
 
 Skills register when a session starts, so make yours live: exit Claude
 Code and start it again (`exit`, then `claude`). Type `/` and confirm
-`verify-fleet-change` now appears in the menu. You *could* run it by hand
-- but you shouldn't have to, and that's the point of what comes next.
+**`verify-fleet-change`** now appears in the menu - that full name is
+yours (a shorter built-in `/verify` also exists; it's a generic tool, not
+your skill). You *could* run yours by hand - but you shouldn't have to,
+and that's the point of what comes next.
 
 Now the second bug. Type the symptom into Claude, exactly like before -
 and notice what you *don't* have to say this time (nothing about
