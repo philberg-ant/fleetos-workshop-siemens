@@ -15,9 +15,11 @@ settings, same network):
       the `/` menu. Require the same or newer version in the room.
 - [ ] Folder-trust dialog: start `claude` in a fresh `starter/` checkout and
       confirm `/goal` works after accepting trust.
-- [ ] Run **Step 2 end-to-end**: does the evaluator visibly bounce an early
-      stop? Does bare `/goal` mid-run print turns + tokens? Adjust the
-      README wording you present if behavior differs on your build.
+- [ ] Run **Step 2 end-to-end**: does `/goal` accept the condition, does
+      bare `/goal` mid-run print turns + tokens, does the run end on the
+      evaluator's green check? (A one-turn finish with no bounce is
+      *expected* when the Step 1 skill is good - the README's 💡 box
+      frames it; the visible bounce is Step 4's job.)
 - [ ] Run **Step 4 end-to-end unattended**: flip `defaultMode: "dontAsk"`,
       start the ticket loop, and *watch the transcript for silent
       auto-denials*. If Claude's composed commands fall outside the
@@ -54,7 +56,7 @@ settings, same network):
 | 0:00 | Frame: the four handoffs table on a slide | — |
 | 0:05 | Step 0 setup | Every pair: *Live API* badge + Swagger + Claude open. Budget 15 min honestly; pre-work email compresses it. |
 | 0:20 | Step 1 — the check | Ask: *"who spent zero verification turns on the second bug?"* Tally turns-before vs turns-after on a whiteboard — it's the module's scoreboard. Expect TWO valid bug-A fixes in the room: adding a Retired card *or* excluding retired from Total — the referee accepts both; 30 seconds on "which would the ops team want?" is a nice bonus beat. |
-| 0:35 | Step 2 — the stop condition | Ask: *"who saw the evaluator bounce Claude? how many times?"* Have one pair read their bare-`/goal` token readout aloud. |
+| 0:35 | Step 2 — the stop condition | Ask: *"who watched the run end on the evaluator's green check - and what did bare `/goal` report mid-run?"* Have one pair read their meter aloud. If someone's run DID bounce, have them narrate it - it's a preview of Step 4. |
 | 0:50 | Step 3 — the trigger | Heartbeat check FIRST (a silent simulator ruins the step). During loop waits, run the interval-sizing discussion and `/usage`. Fire the `--duplicate` beat together, on your call. |
 | 1:10 | Step 4 — the prompt | Stagger loop starts by table (front row first, 60 s apart). Then the whole room stands up for coffee — physically. Return, audit, write-your-own-ticket. |
 | 1:25 | Step 5 — off shift | The summary table + three scenarios; go around: *"which piece of your real job do you hand off first?"* End with the room ceremonially telling Claude "stop the loop" + `/goal clear` (Esc only interrupts one firing — the schedule survives). |

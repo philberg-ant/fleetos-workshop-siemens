@@ -230,21 +230,13 @@ fields - `open_count`, `last_incident`, `updated_at` - so render all three
 (the checks only pin `updated_at`, but a card showing just a timestamp makes
 a dull wall board).
 
-First, try it the way you'd have done it this morning - a plain prompt:
-
-> Build the Ops Feed card the checks describe, so that
-> `python3 checks/check_dashboard.py` passes 12/12.
-
-When Claude stops, run the check yourself. In most sessions it reads
-**9-11 out of 12** - Claude decided "good enough" and stopped early, or
-missed the fallback/timestamp details. You'd normally re-prompt: *"keep
-going, three checks still fail."* You are the judge of done, and the judge
-has to sit through every verdict.
-
-Hand that off. Define done **once**, with a deterministic criterion and a
-turn cap, and let an evaluator enforce it. Author the `/goal` yourself -
-precision of wording is the skill being learned here. Your goal sentence
-must name:
+This is a bigger job than a one-line bug: six checks, three files, a
+fallback state. And notice who judged "done" in Step 1: *Claude*. Your
+skill made its judgment good, but the judgment was still its own. For a
+build like this, take that decision away too - define done **once**,
+*before any work starts*, and let an **evaluator** hold the bar. Author
+the `/goal` yourself - precision of wording is the skill being learned
+here. Your goal sentence must name:
 
 - the exact command to run, and the exact string success prints (you just
   ran the referee - that string is on your screen)
@@ -259,16 +251,17 @@ must name:
 </details>
 <br>
 
-Then send a single word to put Claude back to work:
+Then hand over the work - the prompt no longer needs to say anything
+about checks or done-ness, because the goal owns that now:
 
-> continue
+> Build the Ops Feed card the checks describe.
 
-Now watch the transcript closely - this is the whole lesson. Each time
-Claude tries to stop, the **evaluator** checks your condition. If the check
-script doesn't print 12/12, Claude gets sent back to work *without you
-typing anything*. While it runs, type `/goal` **with no arguments** to see
-the turns and token usage so far - that's your loop's meter. When it exits
-green, clear the goal:
+Now watch the machinery: every time Claude tries to stop, the
+**evaluator** runs your condition. If the referee doesn't print 12/12,
+Claude is sent back to work *without you typing anything*; when it does,
+the run is allowed to end. While it runs, type `/goal` **with no
+arguments** to see the turns and token usage so far - that's your loop's
+meter. When it exits green, clear the goal:
 
 ```
 /goal clear
@@ -281,10 +274,13 @@ green, clear the goal:
 > can spend. That cap is a *budget*, not a failure: hitting it means "report
 > what's left", which is exactly what you'd want from a colleague.
 
-> 💡 **Did Claude one-shot 12/12 without `/goal`?** It happens - and the
-> honest reframe is that `/goal` doesn't buy *capability*, it buys **who
-> verified**. Without it, you ran the check and judged the result. With it,
-> you could have walked away at "continue".
+> 💡 **Finished in a single turn, no bounce?** Good - your Step 1 skill
+> is doing its job, and the evaluator's green check was still what ended
+> the run, not Claude's own opinion. `/goal` doesn't buy *capability*, it
+> buys **who verified** - you could have walked away the moment you hit
+> enter. The bounce earns its keep on work that *can't* one-shot: you'll
+> see it fire for real in Step 4, where every run of the ticket loop
+> carries its own goal against a world that keeps changing.
 
 > 📝 **No `/goal` on your build?** Two things to try: accept the folder
 > trust dialog (`/goal` only works in trusted workspaces), then
