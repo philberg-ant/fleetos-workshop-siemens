@@ -1,0 +1,8 @@
+.venv/
+__pycache__/
+fleetos_api/data/fleet_ops.db
+starter/OPS_LOG.md
+starter/TRIAGE.md
+starter/inbox/TICKET-*.md
+starter/done/TICKET-*.md
+dashboard/live/

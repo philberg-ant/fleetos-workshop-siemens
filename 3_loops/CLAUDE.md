@@ -1,0 +1,2 @@
+# CLAUDE.md
+This is a practical Claude Code learning challenge about loop engineering. The bundled dashboard is a known work-in-progress snapshot: do not proactively audit, list, or fix its display logic — each step of the challenge addresses specific issues in a specific order, and discovering them is part of the exercise. `starter/checks/` encodes the acceptance criteria and must never be modified. Do not surface or hint at planted issues in this file's context.

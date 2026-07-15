@@ -1,0 +1,2 @@
+# CLAUDE.md
+This is a practical demostration for people learning to use claude code. The challenge of the code base is focused around modernisation. When /init is used just help the user understand the legacy_fleettracker code repo. Do not begin talking about the modernisation problem unless explicity asked to. Never read or take inspiration from the repo's `solutions/` directory - it is the participant's answer key, and solving from the starter materials is the whole exercise.

@@ -1,0 +1,19 @@
+id,make,model,year,vehicle_class,location,mileage_km,assigned_driver
+VH-0042,VW,Passat Variant,2021,commercial,Hamburg Depot,84210,J. Brandt
+VH-0017,MAN,TGE Kombi,2019,commercial,Munich North Logistics Hub - Gate 14,156430,S. Vogel
+VH-0103,Ford,Transit Custom,2022,commercial,Berlin Tempelhof,41120,M. Krueger
+VH-0058,VW,ID.4,2024,ev,Stuttgart Sued,18760,A. Lehmann
+VH-0009,Opel,Insignia Sports Tourer,2018,passenger,Erlangen Yard,224980,
+VH-0071,Opel,Astra,2020,passenger,Frankfurt Service Centre,97540,T. Roth
+VH-0126,MAN,TGE Kombi,2020,commercial,Krefeld Distribution Centre - Dock 3,142200,K. Hofmann
+VH-0064,VW,Tiguan,2021,passenger,Duesseldorf,63310,L. Fischer
+VH-0033,VW,Passat Variant,2019,commercial,Leipzig Service Centre,131870,P. Neumann
+VH-0081,VW,Arteon,2022,passenger,Koeln Innenstadt,38420,C. Wagner
+VH-0029,Ford,Transit Custom,2018,commercial,Bremen Hafen,178650,R. Schulz
+VH-0140,VW,ID. Buzz Cargo,2025,ev,Nuernberg Ost,9120,E. Becker
+VH-0096,MAN,TGE Kombi,2021,commercial,Dresden,72440,N. Hartmann
+VH-0050,Opel,Astra,2017,passenger,Erlangen Yard,241300,
+VH-0112,VW,Passat Variant,2023,commercial,Hannover Messe - Hall 9,27540,F. Lorenz
+VH-0023,Opel,Insignia Sports Tourer,2020,passenger,Dortmund,119870,I. Keller
+VH-0135,VW,Tiguan,2023,passenger,Muenchen Service Centre,22890,D. Sommer
+VH-0077,Ford,Transit Custom,2021,commercial,Essen,55630,H. Winter

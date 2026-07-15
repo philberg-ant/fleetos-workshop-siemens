@@ -1,0 +1,12 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Read|Grep|Glob|Bash",
+        "hooks": [
+          { "type": "command", "command": "python3 ../../.claude/hooks/guard_solutions.py || python ../../.claude/hooks/guard_solutions.py" }
+        ]
+      }
+    ]
+  }
+}

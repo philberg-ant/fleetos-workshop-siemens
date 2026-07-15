@@ -1,0 +1,31 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl *localhost:8001*)",
+      "Bash(python3 checks/*)",
+      "Bash(python3 -m http.server*)",
+      "Bash(mv inbox/*)",
+      "Bash(mv ./inbox/*)",
+      "Bash(date*)",
+      "Read", "Grep", "Glob", "Edit", "Write"
+    ],
+    "deny": ["WebFetch", "WebSearch"],
+    "additionalDirectories": ["../dashboard"]
+  },
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|Bash",
+        "hooks": [
+          { "type": "command", "command": "python3 .claude/hooks/guard_sim.py || python .claude/hooks/guard_sim.py" }
+        ]
+      },
+      {
+        "matcher": "Read|Grep|Glob|Bash",
+        "hooks": [
+          { "type": "command", "command": "python3 ../../.claude/hooks/guard_solutions.py || python ../../.claude/hooks/guard_solutions.py" }
+        ]
+      }
+    ]
+  }
+}
