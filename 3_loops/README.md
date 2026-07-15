@@ -133,12 +133,15 @@ prompt, wait, check it yourself:
 
 When Claude reports done, **you** do the verifying: reload
 <http://localhost:8000>, count the cards, check nothing else broke. If it's
-not right, describe what you see and go again. Keep an honest tally:
+not right, describe what you see and go again - and **count every turn you
+personally spend verifying** (each reload-squint-re-prompt round trip is
+one). Jot the number down; you'll fix a second bug in a few minutes and
+compare:
 
-| | Turns *you* spent verifying |
+| Bug | Verification turns *you* spent |
 | --- | --- |
-| This bug | ___ |
-| Next bug | ___ |
+| First bug (this one) | ___ |
+| Second bug (later this step) | ___ |
 
 That tally is the point of this step. Every round-trip where you are the
 checker costs wall-clock minutes and context. So before touching the next
@@ -240,11 +243,22 @@ going, three checks still fail."* You are the judge of done, and the judge
 has to sit through every verdict.
 
 Hand that off. Define done **once**, with a deterministic criterion and a
-turn cap, and let an evaluator enforce it:
+turn cap, and let an evaluator enforce it. Author the `/goal` yourself -
+precision of wording is the skill being learned here. Your goal sentence
+must name:
+
+- the exact command to run, and the exact string success prints (you just
+  ran the referee - that string is on your screen)
+- a turn cap, so the loop has a budget ("stop after N turns")
+
+<details>
+<summary><strong>🤔 Stuck? The exact /goal (click to expand)</strong></summary>
 
 ```
 /goal python3 checks/check_dashboard.py prints "12/12 PASSED" - stop after 6 turns
 ```
+</details>
+<br>
 
 Then send a single word to put Claude back to work:
 
@@ -295,8 +309,20 @@ python3 depot_sim.py
 > fuel stops, bay changes. If you see nothing within a minute, the API
 > probably isn't running (the simulator says so and waits).
 
-The world now changes without you. Feel what that does to your job - send
-this **once**:
+The world now changes without you. Feel what that does to your job - write
+one triage prompt and send it **once**. Your prompt should cover:
+
+- `curl http://localhost:8001/ops/incidents` and find unresolved incidents
+  whose INC-id is not yet in `OPS_LOG.md`
+- append one line per new incident to `OPS_LOG.md` (id, vehicle, severity,
+  category, description)
+- rewrite `../dashboard/live/ops_status.json` with the three fields the Ops
+  Feed reads: `open_count`, `last_incident`, `updated_at`
+- verify with the verify-fleet-change skill
+- if nothing is new: say "no new incidents" and change nothing
+
+<details>
+<summary><strong>🤔 Stuck? Example triage prompt (click to expand)</strong></summary>
 
 > curl http://localhost:8001/ops/incidents and find unresolved incidents
 > whose INC-id is not yet in OPS_LOG.md. Append one line per new incident
@@ -307,15 +333,29 @@ this **once**:
 > timestamp>"}. Verify with the verify-fleet-change skill. If nothing is
 > new, say "no new incidents" and change nothing.
 
+</details>
+<br>
+
 Reload the browser - the Ops Feed populates. Now wait for two or three
 heartbeats in Terminal B... and send **the exact same prompt again**.
 
 That's the job you have right now: *you are a human `setInterval`*. The
-prompt never changes; only the world does. So hand off the trigger:
+prompt never changes; only the world does. So hand off the trigger - the
+same prompt, on a two-minute timer, with one addition for the empty case
+("do nothing else"):
+
+```
+/loop 2m <your triage prompt>
+```
+
+<details>
+<summary><strong>🤔 Stuck? The exact /loop (click to expand)</strong></summary>
 
 ```
 /loop 2m curl http://localhost:8001/ops/incidents and find unresolved incidents whose INC-id is not yet in OPS_LOG.md. Append one line per new incident to OPS_LOG.md (id, vehicle, severity, category, description). Then rewrite ../dashboard/live/ops_status.json with {"open_count", "last_incident", "updated_at"} as before. Verify with the verify-fleet-change skill. If nothing is new, say "no new incidents" and do nothing else.
 ```
+</details>
+<br>
 
 Fold your arms. Watch the Ops Feed's *updated at* timestamp advance on its
 own, and `OPS_LOG.md` grow between your prompts. At some point you'll read
@@ -430,7 +470,19 @@ Then restart Claude Code (settings load at startup).
 > credentials is a platform-team design exercise - not a workshop step.
 
 Now compose everything you've handed off this morning - the trigger, the
-stop condition, the check, and the prompt:
+stop condition, the check, and the prompt. Author both lines; by now you
+know the ingredients:
+
+- **the `/goal`**: a run is only done when `inbox/` is empty AND every
+  processed ticket left a row in `TRIAGE.md` or a line in `OPS_LOG.md` -
+  plus a per-run turn cap
+- **the `/loop`**: every 2 minutes, process every file in `inbox/` by its
+  "Definition of done", verify with the verify-fleet-change skill, then
+  file it with `mv inbox/<name> done/`; if the inbox is empty, say
+  "queue empty" and do nothing else
+
+<details>
+<summary><strong>🤔 Stuck? The exact commands (click to expand)</strong></summary>
 
 ```
 /goal a run is only done when inbox/ is empty and every processed ticket has a row or line in TRIAGE.md or OPS_LOG.md - stop after 4 turns per run
@@ -439,6 +491,8 @@ stop condition, the check, and the prompt:
 ```
 /loop 2m process the ticket queue: for every file in inbox/, do exactly what its "Definition of done" section says, verify with the verify-fleet-change skill, then file it with `mv inbox/<name> done/`. If inbox/ is empty, reply "queue empty" and do nothing else.
 ```
+</details>
+<br>
 
 Then **stand up and walk away for four minutes.** Get a coffee. Really.
 
