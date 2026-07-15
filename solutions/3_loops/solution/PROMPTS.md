@@ -84,7 +84,7 @@ $ python3 depot_sim.py --tickets --duration 12m     # Terminal B
 *(add `"defaultMode": "dontAsk"` to .claude/settings.json, restart claude)*
 
 ```
-/goal a run is only done when inbox/ is empty and every processed ticket has a row or line in TRIAGE.md or OPS_LOG.md - stop after 4 turns per run
+/goal a run is only done when inbox/ contains no ticket file older than 2 minutes and every processed ticket has a row or line in TRIAGE.md or OPS_LOG.md - stop after 4 turns per run
 ```
 
 ```

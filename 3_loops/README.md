@@ -504,9 +504,13 @@ ticket to arrive rots in the inbox; without the goal, an unattended run
 can strand half-processed work and nobody notices.
 Author both lines; by now you know the ingredients:
 
-- **the `/goal`**: a run is only done when `inbox/` is empty AND every
-  processed ticket left a row in `TRIAGE.md` or a line in `OPS_LOG.md` -
-  plus a per-run turn cap
+- **the `/goal`**: a run is only done when no ticket *older than two
+  minutes* remains in `inbox/` AND every processed ticket left a row in
+  `TRIAGE.md` or a line in `OPS_LOG.md` - plus a per-run turn cap.
+  (Why the age rule and not "inbox empty"? Because *empty* races a world
+  that refills - the sim can drop a fresh ticket the moment you clear the
+  last one, and the run never ends. Scope the promise to the backlog the
+  run started with; fresh arrivals belong to the next firing.)
 - **the `/loop`**: every 2 minutes, process every file in `inbox/` by its
   "Definition of done", verify with the verify-fleet-change skill, then
   file it with `mv inbox/<name> done/`; if the inbox is empty, say
@@ -516,7 +520,7 @@ Author both lines; by now you know the ingredients:
 <summary><strong>🤔 Stuck? The exact commands (click to expand)</strong></summary>
 
 ```
-/goal a run is only done when inbox/ is empty and every processed ticket has a row or line in TRIAGE.md or OPS_LOG.md - stop after 4 turns per run
+/goal a run is only done when inbox/ contains no ticket file older than 2 minutes and every processed ticket has a row or line in TRIAGE.md or OPS_LOG.md - stop after 4 turns per run
 ```
 
 ```
@@ -524,6 +528,14 @@ Author both lines; by now you know the ingredients:
 ```
 </details>
 <br>
+
+> 💡 **If a run seems to never end, suspect the condition, not the
+> model.** A goal like "inbox empty" races a world that refills - the
+> agent clears the last ticket, a new one lands, the evaluator says "not
+> done", forever. The world outran the agent, and that's a real ops
+> lesson: write conditions a single run can actually satisfy (the
+> backlog it started with, an age cutoff, a fixed list) and let the
+> *loop* - not one heroic run - absorb whatever arrives next.
 
 Then **stand up and walk away for four minutes.** Get a coffee. Really.
 
