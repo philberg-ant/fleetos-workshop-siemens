@@ -122,31 +122,21 @@ Accept the **folder trust dialog** (Step 2 needs it), run `/model` and pick
 
 First incident of the morning, and it's on the wall: **the summary cards
 don't add up.** Total says 18 vehicles, but Active + In Maintenance +
-Overdue is 16. A fleet manager spotted it before you did. If you did
-Challenge 1, this will feel familiar - you've fixed planted dashboard bugs
-before. This time the bug isn't the lesson: the tally of *your*
-verification turns is. Fix it the way you've fixed everything so far -
-prompt, wait, check it yourself:
+Overdue is 16. A fleet manager spotted it before you did. Fix it the way
+you've fixed everything so far - prompt, wait, check it yourself:
 
 > The summary stat cards on the dashboard don't add up - Total says 18 but
 > the three status cards below it sum to 16. Find out why and fix it.
 
 When Claude reports done, **you** do the verifying: reload
 <http://localhost:8000>, count the cards, check nothing else broke. If it's
-not right, describe what you see and go again - and **count every turn you
-personally spend verifying** (each reload-squint-re-prompt round trip is
-one). Jot the number down; you'll fix a second bug in a few minutes and
-compare:
+not right, describe what you see and go again until it is.
 
-| Bug | Verification turns *you* spent |
-| --- | --- |
-| First bug (this one) | ___ |
-| Second bug (later this step) | ___ |
-
-That tally is the point of this step. Every round-trip where you are the
-checker costs wall-clock minutes and context. So before touching the next
-bug, **encode your checking**. There's already a referee in the repo - run
-it yourself once to see it:
+Notice who just did the checking: **you**. Every one of those
+reload-and-look round trips costs minutes, and they repeat on every change
+you'll ever make. So before touching the next bug, **encode your
+checking**. There's already a referee in the repo - run it yourself once
+to see it:
 
 ```bash
 python3 checks/check_dashboard.py
@@ -205,8 +195,8 @@ Now the second bug - and this time, hand off the check:
 > skill before reporting done.
 
 Watch the difference: Claude edits, then - without being asked - runs the
-check script, curls the endpoints, and reports a pass count. Fill in the
-tally: the second bug should cost you **zero** verification turns.
+check script, curls the endpoints, and reports a pass count. This time you
+never opened the browser: same class of bug, **zero** checking by you.
 
 > 💡 **The lesson here is WHO runs the check.** Same class of bug, same
 > model - the only thing that changed is that your manual verification
