@@ -187,16 +187,25 @@ back partially verified work.
 </details>
 <br>
 
-Now the second bug - and this time, hand off the check:
+Now the second bug. Type the symptom into Claude, exactly like before -
+and notice what you *don't* have to say this time (nothing about
+checking):
 
 > The Open Incidents card on the dashboard always shows 0, even though
 > `/ops/incidents` has open incidents. Fix it so the card shows the live
-> count of unresolved incidents, and verify with the verify-fleet-change
-> skill before reporting done.
+> count of unresolved incidents.
 
 Watch the difference: Claude edits, then - without being asked - runs the
-check script, curls the endpoints, and reports a pass count. This time you
-never opened the browser: same class of bug, **zero** checking by you.
+check script, curls the endpoints, and reports a pass count. Your skill's
+`description:` line did that: it tells Claude *when* the skill applies, so
+the verification triggers on its own. This time you never opened the
+browser: same class of bug, **zero** checking by you.
+
+> 📝 **Claude didn't verify on its own?** Add "verify with the
+> verify-fleet-change skill" to the prompt once - then look at your
+> skill's `description:` line. Ambient triggering is exactly what a sharp
+> description buys ("use after every change to `../dashboard/`"); tighten
+> it and the *next* change won't need the reminder.
 
 > 💡 **The lesson here is WHO runs the check.** Same class of bug, same
 > model - the only thing that changed is that your manual verification
