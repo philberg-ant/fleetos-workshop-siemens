@@ -252,7 +252,9 @@ here. Your goal sentence must name:
 <br>
 
 Then hand over the work - the prompt no longer needs to say anything
-about checks or done-ness, because the goal owns that now:
+about checks or done-ness. Your Step 1 skill still verifies *inside* each
+attempt (it triggers on any dashboard change, no need to name it), and
+the goal now judges *between* attempts:
 
 > Build the Ops Feed card the checks describe.
 
