@@ -496,9 +496,12 @@ Now compose everything you've handed off this morning - the trigger, the
 stop condition, the check, and the prompt. The two commands govern
 different clocks: **the loop decides when runs start** (every 2 minutes,
 watched or not); **the goal decides when a run may stop** (inbox drained
-and logged, or the turn budget spent - not "Claude feels done"). Without
-the loop, the next ticket to arrive rots in the inbox; without the goal,
-an unattended run can strand half-processed work and nobody notices.
+and logged, or the turn budget spent - not "Claude feels done"). And the
+goal isn't a phase that ends before the loop begins - it *stays set*, and
+every firing runs under it, re-checked against the state of that moment
+(that's why you clear both at end of shift). Without the loop, the next
+ticket to arrive rots in the inbox; without the goal, an unattended run
+can strand half-processed work and nobody notices.
 Author both lines; by now you know the ingredients:
 
 - **the `/goal`**: a run is only done when `inbox/` is empty AND every
