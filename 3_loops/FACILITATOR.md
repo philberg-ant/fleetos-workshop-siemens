@@ -40,6 +40,12 @@ settings, same network):
       DB helper replaces the sqlite3 CLI), but on Windows rehearse the venv
       activation and `python` vs `python3` spelling and say it out loud in
       Step 0.
+- [ ] Credential lifetime (Bedrock/SSO setups): Claude Code rides the AWS
+      credential chain, and an expired SSO session surfaces mid-prompt as
+      `API Error: Token is expired. ... run 'aws sso login'`. Confirm the
+      Identity Center session duration covers the full block, and have the
+      whole room run `aws sso login` at the START of the session — a fresh
+      token is maximum runway.
 
 ## Suggested schedule (~90 min room slot)
 
@@ -98,3 +104,4 @@ so nobody stalls.
 | Loop firing finds nothing | Simulator died or interval too short — check the heartbeat, restate the interval-sizing lesson with their case as the example. |
 | Rate-limit stalls during Step 4 | Your pre-decided call: `/model haiku` for loops, and stagger the remaining tables. |
 | "Claude refuses to open solutions/" | Working as designed — every starter ships a hook that keeps Claude out of the answer key (repo root `.claude/hooks/guard_solutions.py`). Participants who want to peek open the files themselves. |
+| `API Error: Token is expired ... aws sso login` | AWS credential expiry, not a Claude Code bug — run `aws sso login --profile <profile>` (whichever profile the laptop's Claude Code uses; `echo $AWS_PROFILE`), then retry the prompt. The session resumes where it left off; a mid-`/loop` expiry just means restarting the loop command. |
