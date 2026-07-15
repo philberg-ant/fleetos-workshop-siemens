@@ -7,23 +7,38 @@
       "Bash(mv inbox/*)",
       "Bash(mv ./inbox/*)",
       "Bash(date*)",
-      "Read", "Grep", "Glob", "Edit", "Write"
+      "Read",
+      "Grep",
+      "Glob",
+      "Edit",
+      "Write"
     ],
-    "deny": ["WebFetch", "WebSearch"],
-    "additionalDirectories": ["../dashboard"]
+    "deny": [
+      "WebFetch",
+      "WebSearch"
+    ],
+    "additionalDirectories": [
+      "../dashboard"
+    ]
   },
   "hooks": {
     "PreToolUse": [
       {
         "matcher": "Edit|Write|MultiEdit|Bash",
         "hooks": [
-          { "type": "command", "command": "python3 .claude/hooks/guard_sim.py || python .claude/hooks/guard_sim.py" }
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_sim.py\" || python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_sim.py\" || true"
+          }
         ]
       },
       {
         "matcher": "Read|Grep|Glob|Bash",
         "hooks": [
-          { "type": "command", "command": "python3 ../../.claude/hooks/guard_solutions.py || python ../../.claude/hooks/guard_solutions.py" }
+          {
+            "type": "command",
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/../../.claude/hooks/guard_solutions.py\" || python \"$CLAUDE_PROJECT_DIR/../../.claude/hooks/guard_solutions.py\" || true"
+          }
         ]
       }
     ]

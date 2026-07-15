@@ -29,7 +29,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 .claude/hooks/guard_sim.py || python .claude/hooks/guard_sim.py"
+            "command": "python3 \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_sim.py\" || python \"$CLAUDE_PROJECT_DIR/.claude/hooks/guard_sim.py\" || true"
           }
         ]
       }
