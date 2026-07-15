@@ -69,14 +69,14 @@ nobody watching.
 ## Step 0 - Clock in (~10 min)
 
 You'll need [`uv`](https://docs.astral.sh/uv/) (or a plain venv). You'll run
-**three labeled terminals plus one spare** (the spare serves the dashboard
-now and fires a one-off injection in Step 3) and a browser - label them now,
-it pays off later:
+**three labeled terminals plus one spare** (the spare serves the dashboard;
+Step 3 borrows one more shell for a one-off injection) and a browser -
+label them now, it pays off later:
 
 | Terminal | Runs | Start it with |
 | --- | --- | --- |
 | **A - the API** | FleetOS API on `:8001` | see below |
-| **B - the world** | `depot_sim.py` (not yet - Step 3 starts it) | *leave it empty for now* |
+| **B - the world** | `depot_sim.py` (not yet - Step 3 starts it) | `cd` into `starter/` and park it there |
 | **C - Claude** | Claude Code, inside `starter/` | `claude` |
 
 Terminal A, from inside `starter/`:
@@ -310,15 +310,17 @@ meter. When it exits green, clear the goal:
 ## Step 3 - 06:40 - Hand off the trigger (~20 min)
 
 The dashboard is healthy and has an Ops Feed. Time to turn on the morning.
-In **Terminal B**:
+In **Terminal B** (parked in `starter/` since Step 0):
 
 ```bash
 python3 depot_sim.py
 ```
 
 > 📝 **Checkpoint:** a heartbeat line every ~20 seconds - new incidents,
-> fuel stops, bay changes. If you see nothing within a minute, the API
-> probably isn't running (the simulator says so and waits).
+> fuel stops, bay changes. If python can't open `depot_sim.py`, the
+> terminal isn't in `starter/` - `cd` there first. If the heartbeat stays
+> silent for a minute, the API probably isn't running (the simulator says
+> so and waits).
 
 The world now changes without you. Feel what that does to your job - write
 one triage prompt and send it **once**. Your prompt should cover:
@@ -387,8 +389,8 @@ While it runs, two things worth doing in the quiet:
    frozen script answers in one call. *Use scripts for deterministic
    work*; save the model for the judgment in between.
 
-**Now break your loop - deliberately.** In a spare terminal (not B - leave
-the simulator running):
+**Now break your loop - deliberately.** Open one more shell in `starter/`
+(not B - leave the simulator running):
 
 ```bash
 python3 depot_sim.py --duplicate
