@@ -118,6 +118,16 @@ Accept the **folder trust dialog** (Step 2 needs it), run `/model` and pick
 > <http://localhost:8001/docs> show six endpoints, Claude Code is open in
 > `starter/`. Don't move on until all three are true.
 
+**What you ran in Step 0**
+
+| Command | What it did |
+| --- | --- |
+| `uv venv` + `uv pip install -r requirements.txt` | One Python env for the whole challenge |
+| `uvicorn --app-dir .. fleetos_api.main:app --port 8001` | Terminal A: the FleetOS API - source of truth; builds its ops database on first start |
+| `cd ../dashboard && python3 -m http.server 8000` | Spare terminal: serves the wall dashboard |
+| `claude` (in `starter/`) | Terminal C: your session - settings, hooks and skills all anchor to this directory |
+| `./reset.sh` | Rewind the whole morning, any time |
+
 ## Step 1 - 06:00 - Hand off the check (~15 min)
 
 First incident of the morning, and it's on the wall: **the summary cards
@@ -228,6 +238,16 @@ same class of bug, **zero** checking by you.
 > self-verifies. This is still a turn-based loop - Claude still decides
 > when it's done - but "done" now includes proof.
 
+**What you ran in Step 1**
+
+| Command / prompt | What it did |
+| --- | --- |
+| *the bug symptom, in your words* | A plain turn-based fix - **you** verified by hand |
+| `python3 checks/check_dashboard.py` | The frozen referee: 12 deterministic checks, prints `N/12 PASSED` |
+| *create `.claude/skills/verify-fleet-change/SKILL.md`* | Encoded your manual checking - the check is handed off |
+| `exit`, then `claude` | Restarted the session so the new skill registers |
+| *the second bug symptom - nothing about checking* | The skill triggered on its own; zero checking by you |
+
 ## Step 2 - 06:20 - Hand off the stop condition (~15 min)
 
 Run the referee again:
@@ -306,6 +326,15 @@ meter. When it exits green, clear the goal:
 > before then. Give up after 6 attempts and report what still fails."* -
 > same pedagogy, weaker enforcement: Claude is now policing its own stop
 > condition instead of an external evaluator doing it.
+
+**What you ran in Step 2**
+
+| Command / prompt | What it did |
+| --- | --- |
+| `/goal <exact success string> - stop after 6 turns` | Handed the stop condition to an evaluator, with a budget |
+| *build the Ops Feed card* | The work - running under the standing goal |
+| `/goal` (no arguments) | The meter: turns and tokens spent so far |
+| `/goal clear` | Retired the goal once it exited green |
 
 ## Step 3 - 06:40 - Hand off the trigger (~20 min)
 
@@ -443,6 +472,18 @@ criteria is exactly that: *you cancel it, or the work completes.*
 > that pattern with `sleep` standing in for cron, and Step 6 invites you
 > to run it.
 
+**What you ran in Step 3**
+
+| Command / prompt | What it did |
+| --- | --- |
+| `python3 depot_sim.py` | Terminal B: the world - incidents, fuel, bays, every ~20 s |
+| *your triage prompt, sent once (then again)* | You were the trigger - a human `setInterval` |
+| `/loop 2m <your triage prompt>` | Handed the trigger to the clock |
+| `python3 depot_sim.py --duplicate` | Injected a same-vehicle re-report (fresh shell) |
+| `python3 checks/db_query.py dupes` | The duplicate detector: `CONTENT_DUP=n` |
+| *add the dedupe rule to the skill* | Fixed the system, not the output - next firing used it |
+| "stop the loop" | Cancelled the schedule (Esc only skips the firing in flight) |
+
 ## Step 4 - 07:00 - Hand off the prompt (~20 min)
 
 So far you still write the prompt each time the *kind* of work changes. The
@@ -561,6 +602,17 @@ One more thing before you stop it - the non-negotiable finale:
 When the simulator prints its end-of-shift summary (or you've seen enough):
 tell Claude **"stop the loop - we're off shift"**, then `/goal clear`.
 You're off shift.
+
+**What you ran in Step 4**
+
+| Command / prompt | What it did |
+| --- | --- |
+| `python3 depot_sim.py --tickets --duration 12m` | Ticket queue on, with a real end of shift |
+| *process TICKET-0001 by hand* | Felt the dispatcher job before handing it off |
+| `"defaultMode": "dontAsk"` in `.claude/settings.json`, restart | Permission to act - auto-deny everything off the allowlist |
+| `/goal <age-scoped condition> - stop after 4 turns per run` | The standing per-run contract every firing must satisfy |
+| `/loop 2m <ticket-queue prompt>` | The heartbeat - and you walked away |
+| "stop the loop", then `/goal clear` | Off shift: both are standing, so both get cleared |
 
 ## Step 5 - 07:59 - Off shift (~5 min)
 
